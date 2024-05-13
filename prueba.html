@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mostrar Datos</title>
+</head>
+<body>
+    <div id="datos"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+    var url = "https://desarrollo.wit.la/centro-puerto/php/leerdatos.php?codigo_ticket=GEn5uNaPNI";
+
+    $.ajax({
+        url: url,
+        type: "GET",
+        success: function(data) {
+            // Manejar los datos recibidos
+            mostrarDatos(data);
+        },
+        error: function(xhr, status, error) {
+            console.error("Error al obtener los datos:", error);
+        }
+    });
+
+    function mostrarDatos(data) {
+        // Convertir los datos JSON a un objeto JavaScript
+        var datos = JSON.parse(data);
+
+        // Crear un string HTML para mostrar los datos
+        var html = "<h1>Datos del Ticket</h1>";
+        html += "<p><strong>ID:</strong> " + datos[0].id + "</p>";
+        html += "<p><strong>Nombre:</strong> " + datos[0].nombre + "</p>";
+        html += "<p><strong>Apellido:</strong> " + datos[0].apellido + "</p>";
+        html += "<p><strong>Fecha:</strong> " + datos[0].fecha + "</p>";
+        html += "<p><strong>Número de Ticket:</strong> " + datos[0].numTicket + "</p>";
+        html += "<p><strong>Teléfono:</strong> " + datos[0].telefono + "</p>";
+        html += "<p><strong>Correo:</strong> " + datos[0].correo + "</p>";
+        html += "<p><strong>Precio:</strong> " + datos[0].precio + "</p>";
+        html += "<p><strong>Rutas:</strong> " + datos[0].rutas + "</p>";
+
+        // Mostrar los datos en el elemento con id "datos"
+        $("#datos").html(html);
+    }
+});
+
+    </script>
+</body>
+</html>
