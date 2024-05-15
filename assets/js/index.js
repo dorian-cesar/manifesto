@@ -122,3 +122,4 @@ qrcode.callback = (respuesta) => {
 window.addEventListener('load', (e) => {
   encenderCamara();
 });
+//
