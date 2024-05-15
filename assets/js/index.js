@@ -78,7 +78,7 @@ const activarSonido = () => {
 // Callback cuando termina de leer el código QR
 qrcode.callback = (respuesta) => {
   if (respuesta) {
-    const runRegex = /RUN=(\d{1,2}(?:\.\d{3}){1,2}-[\dkK])/i; // Expresión regular para extraer el RUN
+    const runRegex = /RUN=(\d{7,8}-\d)/i; // Expresión regular para extraer el RUN
     const match = respuesta.match(runRegex);
     if (match) {
       const run = match[1]; // Extraer el RUN del enlace
