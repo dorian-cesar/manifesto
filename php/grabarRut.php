@@ -1,4 +1,8 @@
 <?php
+header("Access-Control-Allow-Origin: *"); // Permite el acceso desde cualquier origen
+header("Access-Control-Allow-Methods: POST"); // Permite solo solicitudes POST
+header("Access-Control-Allow-Headers: Content-Type"); // Permite el encabezado Content-Type
+
 
 // Verificar si se recibió un JSON válido
 $json = file_get_contents('php://input');
