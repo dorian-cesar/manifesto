@@ -11,11 +11,7 @@ const btnScanQR = document.getElementById("btn-scan-qr");
 // Lectura desactivada
 let scanning = false;
 
-// Inicializar variables de zoom
-let zoom = 1; // Zoom inicial
-const zoomIncrement = 0.1; // Incremento de zoom
-
-// Función para encender la cámara con zoom
+// Función para encender la cámara con zoom máximo
 const encenderCamara = () => {
   navigator.mediaDevices
     .getUserMedia({ video: { facingMode: "environment" } })
@@ -26,8 +22,12 @@ const encenderCamara = () => {
       video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
       video.srcObject = stream;
       video.play();
+      aplicarZoomMaximo();
       tick();
       scan();
+    })
+    .catch(function (error) {
+      console.error("Error al acceder a la cámara:", error);
     });
 };
 
@@ -42,30 +42,24 @@ function tick() {
 
 function scan() {
   try {
+    // Escalar temporalmente la imagen capturada a una resolución mayor
+    canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+
+    // Decodificar la imagen escalada
     qrcode.decode();
   } catch (e) {
     setTimeout(scan, 300);
   }
 }
 
-// Función para aplicar zoom a la cámara
-const aplicarZoom = (factor) => {
+// Función para aplicar zoom máximo a la cámara
+const aplicarZoomMaximo = () => {
   const track = video.srcObject.getVideoTracks()[0];
   const capabilities = track.getCapabilities();
   if (capabilities.zoom) {
-    zoom = Math.max(capabilities.zoom.min, Math.min(capabilities.zoom.max, zoom + factor));
-    track.applyConstraints({ advanced: [{ zoom: zoom }] });
+    const zoomMaximo = capabilities.zoom.max;
+    track.applyConstraints({ advanced: [{ zoom: zoomMaximo }] });
   }
-};
-
-// Función para reducir el zoom
-const reducirZoom = () => {
-  aplicarZoom(-1 * zoomIncrement); // Invertimos el incremento para reducir el zoom
-};
-
-// Función para aumentar el zoom
-const aumentarZoom = () => {
-  aplicarZoom(zoomIncrement);
 };
 
 // Apagar la cámara
@@ -74,7 +68,6 @@ const cerrarCamara = () => {
     track.stop();
   });
   canvasElement.hidden = true;
-  btnScanQR.hidden = false;
 };
 
 const activarSonido = () => {
@@ -95,7 +88,3 @@ qrcode.callback = (respuesta) => {
 window.addEventListener('load', (e) => {
   encenderCamara();
 });
-
-// Event listeners para el zoom
-document.getElementById('zoomIn').addEventListener('click', aumentarZoom);
-document.getElementById('zoomOut').addEventListener('click', reducirZoom);
