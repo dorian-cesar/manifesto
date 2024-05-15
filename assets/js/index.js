@@ -15,10 +15,15 @@ const canvasHeight = 240; // Alto del canvas
 // Lectura desactivada
 let scanning = false;
 
-// Función para encender la cámara
+// Función para encender la cámara con autofocus
 const encenderCamara = () => {
   navigator.mediaDevices
-    .getUserMedia({ video: { facingMode: "environment" } })
+    .getUserMedia({
+      video: {
+        facingMode: "environment",
+        autoFocus: true // Habilitar autofocus
+      }
+    })
     .then(function (stream) {
       scanning = true;
       btnScanQR.hidden = true;
