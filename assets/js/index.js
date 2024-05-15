@@ -9,8 +9,8 @@ const canvas = canvasElement.getContext("2d");
 const btnScanQR = document.getElementById("btn-scan-qr");
 
 // Definir el tamaño del canvas
-const canvasWidth = 320; // Ancho del canvas
-const canvasHeight = 240; // Alto del canvas
+const canvasWidth = 120; // Ancho del canvas
+const canvasHeight = 120; // Alto del canvas
 
 // Lectura desactivada
 let scanning = false;
