@@ -16,9 +16,6 @@
 <body>
   <div class="row justify-content-center mt-5">
     <div class="col-sm-4 shadow p-3">
-      <div style="display: flex; justify-content: center; align-items: center;">
-        <img src="https://pb-pool.s3.amazonaws.com/RackMultipart20240228-1957-r13gag.png" alt="portada">
-      </div>
       <h5 class="text-center">Escanear código QR</h5>
       <div class="row text-center">
         <a id="btn-scan-qr" href="#">
@@ -28,57 +25,15 @@
         <canvas hidden="" id="qr-canvas" class="img-fluid"></canvas>
       </div>
       <div class="row mx-5 my-3">
-        <button class="btn btn-success btn-lg rounded-3 mb-2" onclick="encenderCamara()">Escanear Codigo QR</button>
+        <button class="btn btn-success btn-lg rounded-3 mb-2" onclick="encenderCamara()">Escanear Codigo
+          QR</button>
         <!--<button class="btn btn-danger btn-sm rounded-3" onclick="cerrarCamara()">Detener cámara</button>-->
       </div>
       <!-- Aquí se mostrarán los datos de la API -->
-      <div id="datos" class="text-center mt-3"></div>
     </div>
   </div>
   <audio id="audioScaner" src="assets/sonido.mp3"></audio>
   <script src="assets/js/index.js"></script>
-  <script>
-    qrcode.callback = (respuesta) => {
-      if (respuesta) {
-        activarSonido();
-        // Realiza la solicitud AJAX para obtener los datos del ticket
-        var url = "https://desarrollo.wit.la/centro-puerto/php/leerdatos.php?codigo_ticket=" + respuesta;
-        $.ajax({
-          url: url,
-          type: "GET",
-          success: function (data) {
-            var datos = JSON.parse(data);
-            var html = "<h1>Datos del Ticket</h1>";
-            html += "<p><strong>ID:</strong> " + datos[0].id + "</p>";
-            html += "<p><strong>Nombre:</strong> " + datos[0].nombre + "</p>";
-            html += "<p><strong>Apellido:</strong> " + datos[0].apellido + "</p>";
-            html += "<p><strong>Fecha:</strong> " + datos[0].fecha + "</p>";
-            html += "<p><strong>Número de Ticket:</strong> " + datos[0].numTicket + "</p>";
-            html += "<p><strong>Teléfono:</strong> " + datos[0].telefono + "</p>";
-            html += "<p><strong>Correo:</strong> " + datos[0].correo + "</p>";
-            html += "<p><strong>Precio:</strong> " + datos[0].precio + "</p>";
-            html += "<p><strong>Rutas:</strong> " + datos[0].rutas + "</p>";
-
-            // Muestra la alerta SweetAlert2 con los datos del ticket
-            Swal.fire({
-              html: html,
-              confirmButtonText: 'OK'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                // Ejecuta estas funciones después de confirmar la alerta
-
-                cerrarCamara();
-              }
-            });
-          },
-          error: function (xhr, status, error) {
-            console.error("Error al obtener los datos:", error);
-          }
-        });
-      }
-    };
-
-  </script>
 </body>
 
 </html>
