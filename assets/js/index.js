@@ -1,29 +1,20 @@
-// Crear elemento video
+//crea elemento
 const video = document.createElement("video");
 
-// Nuestro canvas
+//nuestro camvas
 const canvasElement = document.getElementById("qr-canvas");
 const canvas = canvasElement.getContext("2d");
 
-// Div donde llegará nuestro canvas
+//div donde llegara nuestro canvas
 const btnScanQR = document.getElementById("btn-scan-qr");
 
-// Definir el tamaño del canvas
-const canvasWidth = 120; // Ancho del canvas
-const canvasHeight = 120; // Alto del canvas
-
-// Lectura desactivada
+//lectura desactivada
 let scanning = false;
 
-// Función para encender la cámara con autofocus
+//funcion para encender la camara
 const encenderCamara = () => {
   navigator.mediaDevices
-    .getUserMedia({
-      video: {
-        facingMode: "environment",
-        autoFocus: true // Habilitar autofocus
-      }
-    })
+    .getUserMedia({ video: { facingMode: "environment" } })
     .then(function (stream) {
       scanning = true;
       btnScanQR.hidden = true;
@@ -33,34 +24,27 @@ const encenderCamara = () => {
       video.play();
       tick();
       scan();
-    })
-    .catch(function (error) {
-      console.error("Error al acceder a la cámara:", error);
     });
 };
 
-// Funciones para levantar las funciones de encendido de la cámara
+//funciones para levantar las funiones de encendido de la camara
 function tick() {
-  canvasElement.width = canvasWidth;
-  canvasElement.height = canvasHeight;
-  canvas.drawImage(video, 0, 0, canvasWidth, canvasHeight);
+  canvasElement.height = video.videoHeight;
+  canvasElement.width = video.videoWidth;
+  canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
 
   scanning && requestAnimationFrame(tick);
 }
 
 function scan() {
   try {
-    // Escalar temporalmente la imagen capturada a una resolución mayor
-    canvas.drawImage(video, 0, 0, canvasWidth, canvasHeight);
-
-    // Decodificar la imagen escalada
     qrcode.decode();
   } catch (e) {
     setTimeout(scan, 300);
   }
 }
 
-// Función para apagar la cámara
+//apagara la camara
 const cerrarCamara = () => {
   video.srcObject.getTracks().forEach((track) => {
     track.stop();
@@ -69,16 +53,34 @@ const cerrarCamara = () => {
   btnScanQR.hidden = false;
 };
 
-// Callback cuando termina de leer el código QR
+const activarSonido = () => {
+  var audio = document.getElementById('audioScaner');
+  audio.play();
+}
+
+//callback cuando termina de leer el codigo QR
 qrcode.callback = (respuesta) => {
   if (respuesta) {
-    Swal.fire(respuesta);
+    //console.log(respuesta);
+    Swal.fire(respuesta)
     activarSonido();
-    cerrarCamara();
+    //encenderCamara();    
+    cerrarCamara();    
+
   }
 };
-
-// Evento para mostrar la cámara sin el botón 
+//evento para mostrar la camara sin el boton 
 window.addEventListener('load', (e) => {
   encenderCamara();
-});
+})
+
+
+
+  
+      
+  
+
+
+
+
+
