@@ -78,10 +78,38 @@ const activarSonido = () => {
 // Callback cuando termina de leer el código QR
 qrcode.callback = (respuesta) => {
   if (respuesta) {
-    const runRegex = /RUN=(\d+-\d+)/i;// Expresión regular para extraer el RUN
+    const runRegex = /RUN=(\d+-\d+)/i; // Expresión regular para extraer el RUN
     const match = respuesta.match(runRegex);
     if (match) {
       const run = match[1]; // Extraer el RUN del enlace
+      const patente = "FFFF46"; // La patente que deseas enviar, podrías obtenerla de algún otro lugar si es necesario
+      const datos = {
+        rut: run,
+        patente: patente
+      };
+
+      // Realizar la solicitud POST a la API
+      fetch('https://interurbano.wit.la/mainfiesto/php/grabarManifesto.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error al enviar los datos al servidor.');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Manejar la respuesta del servidor si es necesario
+        console.log(data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
       Swal.fire(run);
       activarSonido();
       cerrarCamara();
@@ -90,7 +118,6 @@ qrcode.callback = (respuesta) => {
     }
   }
 };
-
 // Evento para mostrar la cámara sin el botón 
 window.addEventListener('load', (e) => {
   encenderCamara();
