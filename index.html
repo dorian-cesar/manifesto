@@ -22,14 +22,12 @@
           <img src="https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2017/07/1499401426qr_icon.svg"
             class="img-fluid text-center" width="175">
         </a>
-        <canvas hidden="" id="qr-canvas" class="img-fluid"></canvas>
+        <canvas hidden="" id="qr-canvas" class="img-fluid" width="6px" height="60px"></canvas>
       </div>
       <div class="row mx-5 my-3">
-        <button class="btn btn-success btn-lg rounded-3 mb-2" onclick="encenderCamara()">Escanear Codigo
-          QR</button>
+        <button class="btn btn-success btn-lg rounded-3 mb-2" onclick="encenderCamara()">Escanear Codigo QR</button>
         <!--<button class="btn btn-danger btn-sm rounded-3" onclick="cerrarCamara()">Detener cámara</button>-->
       </div>
-      <!-- Aquí se mostrarán los datos de la API -->
     </div>
   </div>
   <audio id="audioScaner" src="assets/sonido.mp3"></audio>
