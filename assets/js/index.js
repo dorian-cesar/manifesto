@@ -78,9 +78,16 @@ const activarSonido = () => {
 // Callback cuando termina de leer el código QR
 qrcode.callback = (respuesta) => {
   if (respuesta) {
-    Swal.fire(respuesta)
-    activarSonido();
-    cerrarCamara();
+    const runRegex = /RUN=(\d{1,2}(?:\.\d{3}){1,2}-[\dkK])/i; // Expresión regular para extraer el RUN
+    const match = respuesta.match(runRegex);
+    if (match) {
+      const run = match[1]; // Extraer el RUN del enlace
+      Swal.fire(run);
+      activarSonido();
+      cerrarCamara();
+    } else {
+      Swal.fire("No se pudo encontrar el RUN en el enlace del QR.");
+    }
   }
 };
 
