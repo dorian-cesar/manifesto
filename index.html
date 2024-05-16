@@ -11,12 +11,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <style>
-    h5{
-      font-size: 30px;
-    }
-
-  </style>
+  
 </head>
 <body>
   <div class="contenedor-padre">
@@ -28,22 +23,34 @@
         <div class="col-sm-12 shadow p-3 borde">
           <h5 class="text-center">Manifiesto InterUrbano</h5>
           <div class="row text-center">
-            <a id="btn-scan-qr" href="#">
+            <a id="btn-scan-qr-link" href="#">
               <img src="https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2017/07/1499401426qr_icon.svg"
-                class="img-fluid text-center" width="175">
+                class="img-fluid text-center" width="70">
             </a>
             <div contenedor-canvas>
               <canvas hidden="" id="qr-canvas" class="img-fluid"></canvas>
             </div>
           </div>
           <div class="row mx-5 my-3">
-            <button class="btn btn-success btn-lg rounded-3 mb-2" onclick="encenderCamara()">Escanear Codigo QR</button>
-            <!--<button class="btn btn-danger btn-sm rounded-3" onclick="cerrarCamara()">Detener cámara</button>-->
+            <button id="btn-scan-qr-btn" class="btn btn-success btn-lg rounded-3 mb-2" onclick="encenderCamara()">Escanear Codigo QR</button>
+            <button id="btn-ingresar-rut" class="btn btn-primary btn-lg rounded-3 mb-2" onclick="mostrarInputRut()">Ingresar RUT </button>
           </div>
-          <img src="./assets/img/interurbano.jpeg" alt="">
+          <div id="rut-input" style="display: none;">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Ingrese Rut ó Pasaporte" id="rut-manuel">
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <button class="btn btn-success" type="button" id="btn-agregar" onclick="agregarRutManual()">Ingresar</button>
+            </div>
+          </div>
+         
         </div>
       </div>
     </div>
+    <div class="img-footer">
+      <img src="./assets/img/interurbano.jpeg" alt="" height="150">
+    </div>
+    
   </div>
   <audio id="audioScaner" src="assets/sonido.mp3"></audio>
   <script src="assets/js/index.js"></script>

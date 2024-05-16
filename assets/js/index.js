@@ -6,8 +6,9 @@ const canvasElement = document.getElementById("qr-canvas");
 const canvas = canvasElement.getContext("2d");
 
 // Div donde llegará nuestro canvas
-const btnScanQR = document.getElementById("btn-scan-qr");
-
+const btnScanQRLink = document.getElementById("btn-scan-qr-link");
+const btnScanQRBtn = document.getElementById("btn-scan-qr-btn");
+const btnIngresar = document.getElementById('btn-ingresar-rut');
 // Lectura desactivada
 let scanning = false;
 
@@ -17,7 +18,8 @@ const encenderCamara = () => {
     .getUserMedia({ video: { facingMode: "environment" } })
     .then(function (stream) {
       scanning = true;
-      btnScanQR.hidden = true;
+      btnScanQRLink.style.display = "none";
+      btnScanQRBtn.style.display = "none";
       canvasElement.hidden = false;
       video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
       video.srcObject = stream;
@@ -77,6 +79,24 @@ const activarSonido = () => {
   audio.play();
 }
 
+// Función para mostrar el input y botón para ingresar el RUT manualmente
+const mostrarInputRut = () => {
+  btnIngresar.style.display="none";
+  btnScanQRLink.style.display = "none";
+  btnScanQRBtn.style.display = "none";
+  canvasElement.hidden = true;
+  document.getElementById("rut-input").style.display = "block";
+};
+
+// Función para restaurar la visibilidad del botón de escanear QR y del canvas
+const restaurarVisibilidad = () => {
+  btnIngresar.style.display="block";
+  btnScanQRLink.style.display = "block";
+  btnScanQRBtn.style.display = "block";
+  document.getElementById("rut-input").style.display = "none";
+  document.getElementById("rut-manuel").value = ""; // Limpiar el valor del input
+};
+
 // Callback cuando termina de leer el código QR
 qrcode.callback = (respuesta) => {
   if (respuesta) {
@@ -109,11 +129,13 @@ qrcode.callback = (respuesta) => {
       .then(data => {
         // Manejar la respuesta del servidor si es necesario
         console.log(data);
+        restaurarVisibilidad()
       })
       .catch(error => {
         // Si ocurre un error al enviar los datos al servidor, mostrar una alerta con JavaScript
         alert('No se pudieron enviar los datos al servidor.');
         console.error('Error:', error);
+        restaurarVisibilidad()
       });
 
       Swal.fire(run);
@@ -125,9 +147,54 @@ qrcode.callback = (respuesta) => {
   }
 };
 
+// Función para agregar el RUT manualmente al servidor
+const agregarRutManual = () => {
+  const rutManual = document.getElementById("rut-manuel").value;
+  if (rutManual) {
+    const patente = "FFFF46"; // La patente que deseas enviar, podrías obtenerla de algún otro lugar si es necesario
+    const datos = {
+      rut: rutManual,
+      patente: patente
+    };
+
+    // Realizar la solicitud POST a la API
+    fetch('https://interurbano.wit.la/mainfiesto/php/grabarManifesto.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(datos)
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Error al enviar los datos al servidor.');
+      }
+      // Si se envían correctamente, mostrar una alerta normal
+      alert('Los datos se han enviado correctamente al servidor.');
+      // Mostrar el RUT ingresado manualmente en la alerta
+      alert(`RUT ingresado manualmente: ${rutManual}`);
+      return response.json();
+    })
+    .then(data => {
+      // Manejar la respuesta del servidor si es necesario
+      console.log(data);
+      restaurarVisibilidad(); // Restaurar la visibilidad de los elementos después de completar la operación
+    })
+    .catch(error => {
+      // Si ocurre un error al enviar los datos al servidor, mostrar una alerta con JavaScript
+      alert('No se pudieron enviar los datos al servidor.');
+      console.error('Error:', error);
+      restaurarVisibilidad(); // Restaurar la visibilidad de los elementos después de completar la operación
+    });
+    Swal.fire(rutManual);
+    activarSonido();
+    cerrarCamara();
+  } else {
+    alert("Por favor ingrese un RUT manual válido.");
+  }
+};
 
 // Evento para mostrar la cámara sin el botón 
 window.addEventListener('load', (e) => {
   encenderCamara();
 });
-//

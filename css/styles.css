@@ -1,9 +1,7 @@
-.contenedor-padre{
-    background-color: #ff7e38;
-}
+
 
 h5{
-    color: #fff;
+    color: #000;
     font-size: 35px;
 }
 
@@ -17,18 +15,21 @@ h5{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom:100px ;
+    margin-bottom:10px ;
     
 }
 
-.contenedor img {
+.img-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    height: auto;
+    height: 150px;
     border-radius: 0 0 20px 20px;
 }
 
 .borde{
-    background-color:#3462b1;
+    background-color: rgba(214, 206, 206, 0.267);
     border: solid 2px rgba(7, 7, 7, 0.534);
     border-radius: 30px;
 }
