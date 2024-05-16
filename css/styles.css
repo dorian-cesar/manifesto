@@ -1,13 +1,23 @@
-
+.contenedor-padre{
+    background-color: #ff7e38;
+}
 
 h5{
-    font-size: 30px;
+    color: #fff;
+    font-size: 35px;
+}
+
+.img-titulo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .contenedor{
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-bottom:100px ;
     
 }
 
@@ -18,7 +28,7 @@ h5{
 }
 
 .borde{
-    background-color: rgba(0, 0, 0, 0.104);
+    background-color:#3462b1;
     border: solid 2px rgba(7, 7, 7, 0.534);
     border-radius: 30px;
 }
@@ -35,5 +45,5 @@ h5{
 }
 
 .ancho{
-    width: 400px;
+    width: 350px;
 }

@@ -19,24 +19,29 @@
   </style>
 </head>
 <body>
-  <div class="contenedor">
-    <div class="row justify-content-center mt-5 ancho">
-      <div class="col-sm-12 shadow p-3 borde">
-        <h5 class="text-center">Manifiesto InterUrbano</h5>
-        <div class="row text-center">
-          <a id="btn-scan-qr" href="#">
-            <img src="https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2017/07/1499401426qr_icon.svg"
-              class="img-fluid text-center" width="175">
-          </a>
-          <div contenedor-canvas>
-            <canvas hidden="" id="qr-canvas" class="img-fluid"></canvas>
+  <div class="contenedor-padre">
+    <div class="img-titulo">
+      <img src="./assets/img/Logo.svg" alt="img-titulo">
+    </div>
+    <div class="contenedor">
+      <div class="row justify-content-center ancho">
+        <div class="col-sm-12 shadow p-3 borde">
+          <h5 class="text-center">Manifiesto InterUrbano</h5>
+          <div class="row text-center">
+            <a id="btn-scan-qr" href="#">
+              <img src="https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2017/07/1499401426qr_icon.svg"
+                class="img-fluid text-center" width="175">
+            </a>
+            <div contenedor-canvas>
+              <canvas hidden="" id="qr-canvas" class="img-fluid"></canvas>
+            </div>
           </div>
+          <div class="row mx-5 my-3">
+            <button class="btn btn-success btn-lg rounded-3 mb-2" onclick="encenderCamara()">Escanear Codigo QR</button>
+            <!--<button class="btn btn-danger btn-sm rounded-3" onclick="cerrarCamara()">Detener cámara</button>-->
+          </div>
+          <img src="./assets/img/interurbano.jpeg" alt="">
         </div>
-        <div class="row mx-5 my-3">
-          <button class="btn btn-success btn-lg rounded-3 mb-2" onclick="encenderCamara()">Escanear Codigo QR</button>
-          <!--<button class="btn btn-danger btn-sm rounded-3" onclick="cerrarCamara()">Detener cámara</button>-->
-        </div>
-        <img src="./assets/img/interurbano.jpeg" alt="">
       </div>
     </div>
   </div>
