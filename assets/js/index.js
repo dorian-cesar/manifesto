@@ -58,7 +58,9 @@ const aplicarZoomMaximo = () => {
   const capabilities = track.getCapabilities();
   if (capabilities.zoom) {
     const zoomMaximo = capabilities.zoom.max;
-    track.applyConstraints({ advanced: [{ zoom: zoomMaximo }] });
+    // Calcular un zoom ligeramente menor al máximo
+    const zoomDeseado = zoomMaximo * 0.8; // Por ejemplo, el 90% del máximo
+    track.applyConstraints({ advanced: [{ zoom: zoomDeseado }] });
   }
 };
 

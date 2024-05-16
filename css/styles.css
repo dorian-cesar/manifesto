@@ -1,0 +1,39 @@
+
+
+h5{
+    font-size: 30px;
+}
+
+.contenedor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.contenedor img {
+    width: 100%;
+    height: auto;
+    border-radius: 0 0 20px 20px;
+}
+
+.borde{
+    background-color: rgba(0, 0, 0, 0.104);
+    border: solid 2px rgba(7, 7, 7, 0.534);
+    border-radius: 30px;
+}
+
+#qr-canvas {
+    width: 200px; /* Tamaño inicial del canvas */
+    height: 200px; /* Tamaño inicial del canvas */
+}
+
+.contenedor-canvas{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ancho{
+    width: 400px;
+}
