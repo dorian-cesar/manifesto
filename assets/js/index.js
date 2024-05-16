@@ -102,6 +102,8 @@ qrcode.callback = (respuesta) => {
         if (!response.ok) {
           throw new Error('Error al enviar los datos al servidor.');
         }
+        // Si se envían correctamente, mostrar una alerta normal
+        alert('Los datos se han enviado correctamente al servidor.');
         return response.json();
       })
       .then(data => {
@@ -109,6 +111,8 @@ qrcode.callback = (respuesta) => {
         console.log(data);
       })
       .catch(error => {
+        // Si ocurre un error al enviar los datos al servidor, mostrar una alerta con JavaScript
+        alert('No se pudieron enviar los datos al servidor.');
         console.error('Error:', error);
       });
 
@@ -120,6 +124,8 @@ qrcode.callback = (respuesta) => {
     }
   }
 };
+
+
 // Evento para mostrar la cámara sin el botón 
 window.addEventListener('load', (e) => {
   encenderCamara();
