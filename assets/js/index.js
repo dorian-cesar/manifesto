@@ -12,6 +12,12 @@ const btnIngresar = document.getElementById('btn-ingresar-rut');
 // Lectura desactivada
 let scanning = false;
 
+var Patente = getParameterByName('patente')
+console.log(Patente);
+$('#idPatente').text(Patente);
+
+
+
 // Función para encender la cámara con zoom máximo
 const encenderCamara = () => {
   navigator.mediaDevices
@@ -78,7 +84,7 @@ const activarSonido = () => {
   var audio = document.getElementById('audioScaner');
   audio.play();
 }
-
+  
 // Función para mostrar el input y botón para ingresar el RUT manualmente
 const mostrarInputRut = () => {
   btnIngresar.style.display="none";
@@ -104,10 +110,11 @@ qrcode.callback = (respuesta) => {
     const match = respuesta.match(runRegex);
     if (match) {
       const run = match[1]; // Extraer el RUN del enlace
-      const patente = "FFFF46"; // La patente que deseas enviar, podrías obtenerla de algún otro lugar si es necesario
+      //var Patente = getParameterByName('patente')
+      //const patente = "FFFF46"; // La patente que deseas enviar, podrías obtenerla de algún otro lugar si es necesario
       const datos = {
         rut: run,
-        patente: patente
+        patente: Patente
       };
 
       // Realizar la solicitud POST a la API
@@ -131,12 +138,7 @@ qrcode.callback = (respuesta) => {
         console.log(data);
         restaurarVisibilidad()
       })
-      .catch(error => {
-        // Si ocurre un error al enviar los datos al servidor, mostrar una alerta con JavaScript
-        alert('No se pudieron enviar los datos al servidor.');
-        console.error('Error:', error);
-        restaurarVisibilidad()
-      });
+
 
       Swal.fire(run);
       activarSonido();
@@ -151,10 +153,11 @@ qrcode.callback = (respuesta) => {
 const agregarRutManual = () => {
   const rutManual = document.getElementById("rut-manuel").value;
   if (rutManual) {
-    const patente = "FFFF46"; // La patente que deseas enviar, podrías obtenerla de algún otro lugar si es necesario
+    //const patente = "FFFF46"; // La patente que deseas enviar, podrías obtenerla de algún otro lugar si es necesario
+   // var Patente = getParameterByName('patente')
     const datos = {
       rut: rutManual,
-      patente: patente
+      patente: Patente
     };
 
     // Realizar la solicitud POST a la API
@@ -170,9 +173,9 @@ const agregarRutManual = () => {
         throw new Error('Error al enviar los datos al servidor.');
       }
       // Si se envían correctamente, mostrar una alerta normal
-      alert('Los datos se han enviado correctamente al servidor.');
+      //alert('Los datos se han enviado correctamente al servidor.');
       // Mostrar el RUT ingresado manualmente en la alerta
-      alert(`RUT ingresado manualmente: ${rutManual}`);
+      alert(`RUT ingresado manualmente al servidor: ${rutManual}`);
       return response.json();
     })
     .then(data => {
@@ -180,12 +183,7 @@ const agregarRutManual = () => {
       console.log(data);
       restaurarVisibilidad(); // Restaurar la visibilidad de los elementos después de completar la operación
     })
-    .catch(error => {
-      // Si ocurre un error al enviar los datos al servidor, mostrar una alerta con JavaScript
-      alert('No se pudieron enviar los datos al servidor.');
-      console.error('Error:', error);
-      restaurarVisibilidad(); // Restaurar la visibilidad de los elementos después de completar la operación
-    });
+
     Swal.fire(rutManual);
     activarSonido();
     cerrarCamara();
@@ -198,3 +196,10 @@ const agregarRutManual = () => {
 window.addEventListener('load', (e) => {
   encenderCamara();
 });
+
+function getParameterByName(name) {
+  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+  var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      results = regex.exec(location.search);
+  return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
