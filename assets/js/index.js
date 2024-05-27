@@ -152,12 +152,13 @@ qrcode.callback = (respuesta) => {
 // Función para agregar el RUT manualmente al servidor
 const agregarRutManual = () => {
   const rutManual = document.getElementById("rut-manuel").value;
+  
   if (rutManual) {
-    //const patente = "FFFF46"; // La patente que deseas enviar, podrías obtenerla de algún otro lugar si es necesario
-   var Patente = getParameterByName('patente');
+    const patente = document.getElementById("idPatente").textContent;
+    console.log("Patente a enviar:", patente); // Agrega este console.log para verificar el valor de patente 
     const datos = {
       rut: rutManual,
-      patente: Patente
+      patente: patente
     };
 
     // Realizar la solicitud POST a la API
@@ -168,22 +169,27 @@ const agregarRutManual = () => {
       },
       body: JSON.stringify(datos)
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Error al enviar los datos al servidor.');
-      }
-      // Si se envían correctamente, mostrar una alerta normal
-      //alert('Los datos se han enviado correctamente al servidor.');
-      // Mostrar el RUT ingresado manualmente en la alerta
-      alert(`RUT ingresado manualmente al servidor: ${rutManual}`);
-      return response.json();
-    })
-    .then(data => {
-      // Manejar la respuesta del servidor si es necesario
-      console.log(data);
-      restaurarVisibilidad(); // Restaurar la visibilidad de los elementos después de completar la operación
-    })
-
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error al enviar los datos al servidor.');
+        }
+        // Si se envían correctamente, mostrar una alerta normal
+        alert('Los datos se han enviado correctamente al servidor.');
+        // Mostrar el RUT ingresado manualmente en la alerta
+        alert(`RUT ingresado manualmente: ${rutManual} y enlazado a la patente: ${patente}`);
+        return response.json();
+      })
+      .then(data => {
+        // Manejar la respuesta del servidor si es necesario
+        console.log(data);
+        restaurarVisibilidad(); // Restaurar la visibilidad de los elementos después de completar la operación
+      })
+      .catch(error => {
+        // Si ocurre un error al enviar los datos al servidor, mostrar una alerta con JavaScript
+        console.log('No se pudieron enviar los datos al servidor.');
+        console.error('Error:', error);
+        restaurarVisibilidad(); // Restaurar la visibilidad de los elementos después de completar la operación
+      });
     Swal.fire(rutManual);
     activarSonido();
     cerrarCamara();
