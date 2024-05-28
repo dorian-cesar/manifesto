@@ -67,14 +67,14 @@
       return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
-    // Obtener el valor de 'patente' de la URL
+    //AQUI SE OBTIENE LA PATENTE DE LA URL
     var Patente = getParameterByName('patente');
 
     var patenteDiv = document.getElementById('idPatente');
     patenteDiv.textContent = Patente;
     console.log("Patente a enviar:", Patente); // Utiliza 'Patente' aquí
 
-    // Modificar el enlace "Atras" para incluir la patente en la URL
+    // AQUI ESTARIGO LA PATENTE CON LA URL AL DAR ATRAS
     var btnAtras = document.getElementById('btn-atras');
     btnAtras.href = window.location.pathname + '?patente=' + encodeURIComponent(Patente);
   </script>

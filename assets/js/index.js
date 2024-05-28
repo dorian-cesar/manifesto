@@ -130,9 +130,9 @@ qrcode.callback = (respuesta) => {
           throw new Error('Error al enviar los datos al servidor.');
         }
         // Si se envían correctamente, mostrar una alerta normal
-        alert('Los datos se han enviado correctamente al servidor.');
+        console.log('Los datos se han enviado correctamente al servidor.');
         // Mostrar el RUT ingresado manualmente en la alerta
-        alert(`RUT ingresado manualmente: ${rutManual} y enlazado a la patente: ${patente}`);
+        console.log(`RUT ingresado manualmente: ${rutManual} y enlazado a la patente: ${patente}`);
         return response.json();
       })
       .then(data => {
@@ -146,7 +146,7 @@ qrcode.callback = (respuesta) => {
         console.error('Error:', error);
         restaurarVisibilidad(); // Restaurar la visibilidad de los elementos después de completar la operación
       });
-    Swal.fire(run);
+    Swal.fire('Se Ingreso el Siguiente Rut ',run);
     activarSonido();
     cerrarCamara();
     } else {
@@ -182,9 +182,9 @@ const agregarRutManual = () => {
           throw new Error('Error al enviar los datos al servidor.');
         }
         // Si se envían correctamente, mostrar una alerta normal
-        alert('Los datos se han enviado correctamente al servidor.');
+        console.log('Los datos se han enviado correctamente al servidor.');
         // Mostrar el RUT ingresado manualmente en la alerta
-        alert(`RUT ingresado manualmente: ${rutManual} y enlazado a la patente: ${patente}`);
+        console.log(`RUT ingresado manualmente: ${rutManual} y enlazado a la patente: ${patente}`);
         return response.json();
       })
       .then(data => {
@@ -198,7 +198,7 @@ const agregarRutManual = () => {
         console.error('Error:', error);
         restaurarVisibilidad(); // Restaurar la visibilidad de los elementos después de completar la operación
       });
-    Swal.fire(rutManual);
+    Swal.fire('Se Ingreso el Siguiente Rut ',rutManual);
     activarSonido();
     cerrarCamara();
   } else {
