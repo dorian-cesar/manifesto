@@ -121,33 +121,41 @@ qrcode.callback = (respuesta) => {
       fetch('https://interurbano.wit.la/mainfiesto/php/grabarManifesto.php', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(datos)
-      })
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(datos)
+    })
       .then(response => {
         if (!response.ok) {
           throw new Error('Error al enviar los datos al servidor.');
         }
         // Si se envían correctamente, mostrar una alerta normal
         alert('Los datos se han enviado correctamente al servidor.');
+        // Mostrar el RUT ingresado manualmente en la alerta
+        alert(`RUT ingresado manualmente: ${rutManual} y enlazado a la patente: ${patente}`);
         return response.json();
       })
       .then(data => {
         // Manejar la respuesta del servidor si es necesario
         console.log(data);
-        restaurarVisibilidad()
+        restaurarVisibilidad(); // Restaurar la visibilidad de los elementos después de completar la operación
       })
-
-
-      Swal.fire(run);
-      activarSonido();
-      cerrarCamara();
+      .catch(error => {
+        // Si ocurre un error al enviar los datos al servidor, mostrar una alerta con JavaScript
+        console.log('No se pudieron enviar los datos al servidor.');
+        console.error('Error:', error);
+        restaurarVisibilidad(); // Restaurar la visibilidad de los elementos después de completar la operación
+      });
+    Swal.fire(run);
+    activarSonido();
+    cerrarCamara();
     } else {
       Swal.fire("No se pudo encontrar el RUN en el enlace del QR.");
     }
   }
 };
+
+
 
 // Función para agregar el RUT manualmente al servidor
 const agregarRutManual = () => {
