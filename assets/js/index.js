@@ -146,7 +146,9 @@ qrcode.callback = (respuesta) => {
         console.error('Error:', error);
         restaurarVisibilidad(); // Restaurar la visibilidad de los elementos después de completar la operación
       });
-    Swal.fire('Se Ingreso el Siguiente Rut ',run);
+      Swal.fire({
+        html: `<span style="font-size: 1.5em;">Se Ingresó el Siguiente RUT</span><br><span style="font-size: 1.4em;">${run}</span>`,
+      });
     activarSonido();
     cerrarCamara();
     } else {
@@ -198,7 +200,9 @@ const agregarRutManual = () => {
         console.error('Error:', error);
         restaurarVisibilidad(); // Restaurar la visibilidad de los elementos después de completar la operación
       });
-    Swal.fire('Se Ingreso el Siguiente Rut ',rutManual);
+      Swal.fire({
+        html: `<span style="font-size: 1.5em;">Se Ingresó el Siguiente RUT</span><br><span style="font-size: 1.4em;">${rutManual}</span>`,
+      });
     activarSonido();
     cerrarCamara();
   } else {
