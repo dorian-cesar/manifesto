@@ -38,7 +38,7 @@
                 var patente = $('#patente').val();
                 if (patente) {
                     $.ajax({
-                        url: 'http://localhost/manifesto/php/api.php',
+                        url: 'https://interurbano.wit.la/manifesto/php/api.php',
                         type: 'GET',
                         data: { patente: patente },
                         success: function(response) {
@@ -79,7 +79,7 @@
             $('#imprimir').click(function() {
                 if (registros.length > 0) {
                     var output = "\x1B\x40"; // Inicializar impresora (ESC @)
-                    output += "Impresión de Patentes\n";
+                    output += "Impresión de Pasajeros\n";
                     output += "====================\n";
                     registros.forEach(function(item) {
                         output += "Fecha: " + item.fecha + "\n";
