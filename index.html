@@ -53,7 +53,8 @@
     </div>
     <div>
       <div style="display: flex; justify-content: center; align-items: center;">
-        <a href="https://control-ruta.netlify.app" class="btn btn-success my-2" style="width: 375px;">Imprimir Lista de  Pasajeros</a>
+        <a href="" id="pasajeros"  class="btn btn-success my-2" style="width: 375px;">Imprimir Lista de  Pasajeros</a>
+        
         <a href="https://control-ruta.netlify.app" class="btn btn-warning my-2" style="width: 375px;">Volver al menu principal</a>
 
       </div>
@@ -79,6 +80,9 @@
     // AQUI ESTARIGO LA PATENTE CON LA URL AL DAR ATRAS
     var btnAtras = document.getElementById('btn-atras');
     btnAtras.href = window.location.pathname + '?patente=' + encodeURIComponent(Patente);
+
+    var btnPasajeros = document.getElementById('pasajeros');
+    btnPasajeros.href = './leerManifiesto.html?patente=' + encodeURIComponent(Patente);
   </script>
 </body>
 
