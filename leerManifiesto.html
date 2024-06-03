@@ -87,11 +87,12 @@
             $('#imprimir').click(function () {
                 if (registros.length > 0) {
                     var output = "\x1B\x40"; // Inicializar impresora (ESC @)
-                    output += "Impresión de Pasajeros\n";
-                    output += "====================\n";
+                    output += "Listado de Pasajeros\n";
+                    output += "--------------------\n";
                     output += "Patente: " + Patente + "\n";
+                    output += "--------------------\n";
                     registros.forEach(function (item) {
-                        output += "Fecha: " + item.fecha ;
+                        output += "Fecha: " + item.fecha + "\n" ;
                         output += "RUT: " + item.rut + "\n";
                         
                         output += "--------------------\n";
