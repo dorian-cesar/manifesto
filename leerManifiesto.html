@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,16 +10,17 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+
 <body>
     <div class="container mt-5">
-        <h1 class="text-center">Consulta de Patentes</h1>
+        <h1 class="text-center">Pasajeros</h1>
         <div class="row mt-4">
             <div class="col-md-6 offset-md-3">
                 <div class="form-group">
                     <label for="patente">Ingrese la Patente:</label>
-                    <input type="text" id="patente" class="form-control" placeholder="ABC1234">
+                    <input type="text" id="inputPatente" class="form-control" placeholder="ABC1234">
                 </div>
-                <button id="buscar" class="btn btn-primary btn-block">Buscar</button>
+                <button id="buscar" class="btn btn-primary btn-block">Leer Manifiesto (hoy)</button>
                 <button id="imprimir" class="btn btn-success btn-block mt-2" disabled>Imprimir</button>
             </div>
         </div>
@@ -33,19 +35,25 @@
     <script>
         var registros = [];
 
-        $(document).ready(function() {
-            $('#buscar').click(function() {
-                var patente = $('#patente').val();
+        $(document).ready(function () {
+            //AQUI SE OBTIENE LA PATENTE DE LA URL
+            var Patente = getParameterByName('patente');
+
+            console.log(Patente);
+            $("#inputPatente").val(Patente);
+
+            $('#buscar').click(function () {
+                var patente = $('#inputPatente').val();
                 if (patente) {
                     $.ajax({
                         url: 'https://interurbano.wit.la/manifesto/php/api.php',
                         type: 'GET',
                         data: { patente: patente },
-                        success: function(response) {
+                        success: function (response) {
                             registros = response;
                             $('#resultado').empty(); // Limpiar resultados anteriores
                             if (registros.length > 0) {
-                                registros.forEach(function(item) {
+                                registros.forEach(function (item) {
                                     var listItem = `
                                         <a href="#" class="list-group-item list-group-item-action">
                                             <div class="d-flex w-100 justify-content-between">
@@ -63,7 +71,7 @@
                                 $('#imprimir').prop('disabled', true);
                             }
                         },
-                        error: function() {
+                        error: function () {
                             $('#resultado').empty();
                             $('#resultado').append('<p class="text-center text-danger">Error al consultar la API.</p>');
                             $('#imprimir').prop('disabled', true);
@@ -76,15 +84,16 @@
                 }
             });
 
-            $('#imprimir').click(function() {
+            $('#imprimir').click(function () {
                 if (registros.length > 0) {
                     var output = "\x1B\x40"; // Inicializar impresora (ESC @)
                     output += "Impresión de Pasajeros\n";
                     output += "====================\n";
-                    registros.forEach(function(item) {
-                        output += "Fecha: " + item.fecha + "\n";
+                    output += "Patente: " + Patente + "\n";
+                    registros.forEach(function (item) {
+                        output += "Fecha: " + item.fecha ;
                         output += "RUT: " + item.rut + "\n";
-                        output += "Patente: " + item.patente + "\n";
+                        
                         output += "--------------------\n";
                     });
                     output += "\n\n\n"; // Espacios para el corte de papel
@@ -95,7 +104,7 @@
                     var blob = new Blob([byteArray], { type: 'application/octet-stream' });
 
                     var reader = new FileReader();
-                    reader.onload = function() {
+                    reader.onload = function () {
                         var base64data = reader.result.split(',')[1];
                         // Abrir RawBT con el base64
                         window.open('rawbt:base64,' + base64data, '_blank');
@@ -104,10 +113,17 @@
                 }
             });
         });
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
     </script>
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>
