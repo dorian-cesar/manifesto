@@ -24,7 +24,7 @@
             <div class="col-md-12 ">
                 <div class="form-group">
                     <label for="patente">Patente:</label>
-                    <input type="text" readonly id="inputPatente" class="form-control" placeholder="ABC1234">
+                    <input type="text" id="inputPatente" class="form-control" placeholder="ABC1234">
                 </div>
                 <button id="buscar" class="btn btn-primary btn-block">Leer Manifiesto (hoy)</button>
                 <button id="imprimir" class="btn btn-success btn-block mt-2" disabled>Imprimir</button>
@@ -34,7 +34,6 @@
         <div class="row mt-4">
             <div class="col-md-12">
                 <div id="resultado" class="list-group"></div>
-                <div id="impresion" style="display: none;"></div>
             </div>
             
         </div>
@@ -72,7 +71,6 @@
                                             <p class="mb-1">RUT: ${item.rut}</p>
                                         </a>
                                     `;
-                                    
                                     $('#resultado').append(listItem);
                                 });
                                 $('#imprimir').prop('disabled', false);
@@ -94,19 +92,35 @@
                 }
             });
 
-            $("#imprimir").click(function(){
-                var toprint;
-                $('#impresion').empty();
-                registros.forEach(function(item){
-                    toprint =`<h4>Rut: ${item.rut}</h4>
-                    <p>${item.fecha}</p>`;
-                    $('#impresion').append(toprint);
-                });
-                
-                window.location='printerplus://send?text='+document.getElementById('impresion').innerHTML;
-            });
+            $('#imprimir').click(function () {
+                if (registros.length > 0) {
+                    var output = "\x1B\x40"; // Inicializar impresora (ESC @)
+                    output += "Listado de Pasajeros\n";
+                    output += "--------------------\n";
+                    output += "Patente: " + Patente + "\n";
+                    output += "--------------------\n";
+                    registros.forEach(function (item) {
+                        output += "Fecha: " + item.fecha + "\n" ;
+                        output += "RUT: " + item.rut + "\n";
+                        
+                        output += "--------------------\n";
+                    });
+                    output += "\n\n\n"; // Espacios para el corte de papel
+                    output += "\x1D\x56\x00"; // Cortar papel (GS V 0)
 
-        
+                    // Convertir a bytes y enviar a RawBT
+                    var byteArray = new TextEncoder().encode(output);
+                    var blob = new Blob([byteArray], { type: 'application/octet-stream' });
+
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        var base64data = reader.result.split(',')[1];
+                        // Abrir RawBT con el base64
+                        window.open('rawbt:base64,' + base64data, '_blank');
+                    };
+                    reader.readAsDataURL(blob);
+                }
+            });
         });
         function getParameterByName(name) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
