@@ -31,12 +31,12 @@ h5{
 .borde{
     background-color: rgba(214, 206, 206, 0.267);
     border: solid 2px rgba(7, 7, 7, 0.534);
-    border-radius: 30px;
+    border-radius: 10px;
 }
 
 #qr-canvas {
-    width: 200px; /* Tamaño inicial del canvas */
-    height: 200px; /* Tamaño inicial del canvas */
+    width: 300px; /* Tamaño inicial del canvas */
+    height: 300px; /* Tamaño inicial del canvas */
 }
 
 .contenedor-canvas{
@@ -46,5 +46,5 @@ h5{
 }
 
 .ancho{
-    width: 350px;
+    width: 375px;
 }
