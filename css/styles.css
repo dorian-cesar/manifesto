@@ -35,8 +35,8 @@ h5{
 }
 
 #qr-canvas {
-    width: 300px; /* Tamaño inicial del canvas */
-    height: 300px; /* Tamaño inicial del canvas */
+    width: 290px; /* Tamaño inicial del canvas */
+    height: 290px; /* Tamaño inicial del canvas */
 }
 
 .contenedor-canvas{
